@@ -22,7 +22,8 @@ class CourseController {
 
     @GetMapping("/courses")
     ResponseEntity<List<CourseResponse>> allCourses() {
-        return ResponseEntity.ok().build();
+        List<Course> courses = courseRepository.findAll();
+        return ResponseEntity.ok(CourseResponse.convert(courses));
     }
 
     @GetMapping("/courses/{code}")
@@ -37,4 +38,5 @@ class CourseController {
         URI location = URI.create(format("/courses/%s", newCourseRequest.getCode()));
         return ResponseEntity.created(location).build();
     }
+
 }

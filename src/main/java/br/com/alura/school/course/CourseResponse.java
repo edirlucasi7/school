@@ -1,8 +1,12 @@
 package br.com.alura.school.course;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 class CourseResponse {
 
@@ -19,6 +23,10 @@ class CourseResponse {
         this.code = course.getCode();
         this.name = course.getName();
         this.shortDescription = Optional.of(course.getDescription()).map(this::abbreviateDescription).orElse("");
+    }
+
+    public static List<CourseResponse> convert(List<Course> courses) {
+        return courses.stream().map(CourseResponse::new).collect(Collectors.toList());
     }
 
     private String abbreviateDescription(String description) {
