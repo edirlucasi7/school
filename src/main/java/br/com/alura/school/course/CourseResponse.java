@@ -1,8 +1,6 @@
 package br.com.alura.school.course;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;

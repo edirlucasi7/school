@@ -1,6 +1,10 @@
 package br.com.alura.school.course;
 
+import br.com.alura.school.user.User;
+import br.com.alura.school.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,9 +19,11 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 class CourseController {
 
     private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
 
-    CourseController(CourseRepository courseRepository) {
+    CourseController(CourseRepository courseRepository, UserRepository userRepository) {
         this.courseRepository = courseRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/courses")
@@ -37,6 +43,18 @@ class CourseController {
         courseRepository.save(newCourseRequest.toEntity());
         URI location = URI.create(format("/courses/%s", newCourseRequest.getCode()));
         return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping("/courses/{courseCode}/enroll")
+    ResponseEntity<Void> newEnroll(@PathVariable("courseCode") String courseCode, @RequestBody @Valid NewUserCourseRequest newUserCourseRequest) {
+        User user = userRepository.findByUsername(newUserCourseRequest.getUsername()).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("User with code %s not found", newUserCourseRequest.getUsername())));
+        Course course = courseRepository.findByCode(courseCode).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("Course with code %s not found", courseCode)));
+        if(!course.hasEqualsUsersInACourse(newUserCourseRequest.getUsername())) {
+            course.addUser(new UserCourse(user, course));
+            courseRepository.save(course);
+            return ResponseEntity.created(null).build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }
