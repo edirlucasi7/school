@@ -1,11 +1,12 @@
 package br.com.alura.school.course;
 
+import org.springframework.util.Assert;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,17 +38,21 @@ public class Course {
     protected Course() { }
 
     Course(String code, String name, String description) {
+        Assert.notNull(code,"The code cannot be null!");
+        Assert.notNull(name,"The name cannot be null!");
         this.code = code;
         this.name = name;
         this.description = description;
     }
 
     public void addUser(UserCourse user) {
+        Assert.notNull(user,"The user should not be null!");
         user.setCourse(this);
         this.users.add(user);
     }
 
     public boolean hasEqualsUsersInACourse(String username) {
+        Assert.notNull(username,"The username should not be null!");
         return users.stream().anyMatch(u -> (u.getUser().getUsername().equals(username)));
     }
 

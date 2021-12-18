@@ -2,13 +2,14 @@ package br.com.alura.school.user;
 
 import br.com.alura.school.support.validation.Unique;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.util.Assert;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 
-class NewUserRequest {
+public class NewUserRequest {
 
     @Unique(entity = User.class, field = "username")
     @Size(max=20)
@@ -30,8 +31,12 @@ class NewUserRequest {
     String getUsername() {
         return username;
     }
+    public String getEmail() { return email; }
 
     User toEntity() {
+        Assert.notNull(username,"The username should not be null!");
+        Assert.notNull(email,"The username should not be null!");
         return new User(username, email);
     }
+
 }

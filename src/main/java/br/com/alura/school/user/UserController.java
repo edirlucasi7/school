@@ -1,6 +1,9 @@
 package br.com.alura.school.user;
 
+import br.com.alura.school.user.validator.VerifyDuplicateEmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,6 +17,14 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 class UserController {
 
     private final UserRepository userRepository;
+
+    @Autowired
+    private VerifyDuplicateEmailValidator verifyDuplicateEmailValidator;
+
+    @InitBinder(value = "newUserRequest")
+    public void init(WebDataBinder binder) {
+        binder.addValidators(verifyDuplicateEmailValidator);
+    }
 
     UserController(UserRepository userRepository) {
         this.userRepository = userRepository;

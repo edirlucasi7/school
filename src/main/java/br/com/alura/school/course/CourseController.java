@@ -2,9 +2,7 @@ package br.com.alura.school.course;
 
 import br.com.alura.school.user.User;
 import br.com.alura.school.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -47,7 +45,7 @@ class CourseController {
 
     @PostMapping("/courses/{courseCode}/enroll")
     ResponseEntity<Void> newEnroll(@PathVariable("courseCode") String courseCode, @RequestBody @Valid NewUserCourseRequest newUserCourseRequest) {
-        User user = userRepository.findByUsername(newUserCourseRequest.getUsername()).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("User with code %s not found", newUserCourseRequest.getUsername())));
+        User user = userRepository.findByUsername(newUserCourseRequest.getUsername()).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("User with username %s not found", newUserCourseRequest.getUsername())));
         Course course = courseRepository.findByCode(courseCode).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("Course with code %s not found", courseCode)));
         if(!course.hasEqualsUsersInACourse(newUserCourseRequest.getUsername())) {
             course.addUser(new UserCourse(user, course));
