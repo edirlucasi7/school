@@ -23,7 +23,7 @@ class CourseResponse {
         this.shortDescription = Optional.of(course.getDescription()).map(this::abbreviateDescription).orElse("");
     }
 
-    public static List<CourseResponse> convert(List<Course> courses) {
+    static List<CourseResponse> convert(List<Course> courses) {
         return courses.stream().map(CourseResponse::new).collect(Collectors.toList());
     }
 

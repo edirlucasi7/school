@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class NewUserCourseRequest {
+class NewUserCourseRequest {
 
     @Size(max=20)
     @NotBlank
@@ -14,6 +14,6 @@ public class NewUserCourseRequest {
 
     public void setUsername(String username) { this.username = username; }
 
-    public String getUsername() { return username; }
+    String getUsername() { return username; }
 
 }

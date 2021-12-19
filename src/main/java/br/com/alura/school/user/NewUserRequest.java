@@ -28,9 +28,8 @@ public class NewUserRequest {
         this.email = email;
     }
 
-    String getUsername() {
-        return username;
-    }
+    String getUsername() { return username; }
+
     public String getEmail() { return email; }
 
     User toEntity() {

@@ -12,7 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "users_course")
-public class UserCourse {
+class UserCourse {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -30,17 +30,17 @@ public class UserCourse {
     private Course course;
 
     @Deprecated
-    public UserCourse() { }
+    protected UserCourse() { }
 
-    public UserCourse(User user, Course course) {
+    UserCourse(User user, Course course) {
         Assert.notNull(user, "The user should not be null!");
         Assert.notNull(course, "The course should not be null!");
         this.user = user;
         this.course = course;
     }
 
-    public User getUser() { return user; }
+    User getUser() { return user; }
 
-    public void setCourse(Course course) { this.course = course; }
+    void setCourse(Course course) { this.course = course; }
 
 }

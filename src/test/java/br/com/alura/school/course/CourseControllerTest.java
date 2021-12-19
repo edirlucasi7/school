@@ -1,5 +1,7 @@
 package br.com.alura.school.course;
 
+import br.com.alura.school.user.User;
+import br.com.alura.school.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ class CourseControllerTest {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     void should_retrieve_course_by_code() throws Exception {
@@ -67,6 +72,20 @@ class CourseControllerTest {
                 .content(jsonMapper.writeValueAsString(newCourseRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/courses/java-2"));
+    }
+
+    @Test
+    void should_add_new_user_in_course() throws Exception {
+        userRepository.save(new User("icety", "icety@email.com"));
+        courseRepository.save(new Course("java-1", "Java OO", "Java and Object Orientation: Encapsulation, Inheritance and Polymorphism."));
+
+        NewUserCourseRequest newUserCourseRequest = new NewUserCourseRequest();
+        newUserCourseRequest.setUsername("icety");
+
+        mockMvc.perform(post("/courses/java-1/enroll")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonMapper.writeValueAsString(newUserCourseRequest)))
+                .andExpect(status().isCreated());
     }
 
 }

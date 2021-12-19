@@ -13,7 +13,7 @@ import java.util.Objects;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-public class Course {
+class Course {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -45,13 +45,13 @@ public class Course {
         this.description = description;
     }
 
-    public void addUser(UserCourse user) {
+    void addUser(UserCourse user) {
         Assert.notNull(user,"The user should not be null!");
         user.setCourse(this);
         this.users.add(user);
     }
 
-    public boolean hasEqualsUsersInACourse(String username) {
+    boolean hasEqualsUsersInACourse(String username) {
         Assert.notNull(username,"The username should not be null!");
         return users.stream().anyMatch(u -> (u.getUser().getUsername().equals(username)));
     }

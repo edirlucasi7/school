@@ -29,7 +29,7 @@ class NewCourseRequest {
         this.description = description;
     }
 
-    public String getCode() {
+    String getCode() {
         return code;
     }
 
