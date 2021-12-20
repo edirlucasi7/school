@@ -64,6 +64,37 @@ class CourseControllerTest {
     }
 
     @Test
+    void should_retrieve_report_users_and_enroll() throws Exception {
+        userRepository.save(new User("icety", "icety@email.com"));
+        courseRepository.save(new Course("spring-1", "Spring Basics", "Spring Core and Spring MVC."));
+
+        NewUserCourseRequest newUserCourseRequest = new NewUserCourseRequest();
+        newUserCourseRequest.setUsername("icety");
+
+        mockMvc.perform(post("/courses/spring-1/enroll")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonMapper.writeValueAsString(newUserCourseRequest)));
+
+        mockMvc.perform(get("/courses/enroll/report")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()", is(1)))
+                .andExpect(jsonPath("$[0].email", is("icety@email.com")))
+                .andExpect(jsonPath("$[0].amount_enroll", is(1)));
+    }
+
+    @Test
+    void should_validade_no_content_report_users_and_enroll() throws Exception {
+        userRepository.save(new User("icety", "icety@email.com"));
+        courseRepository.save(new Course("java-1", "Java OO", "Java and Object Orientation: Encapsulation, Inheritance and Polymorphism."));
+
+        mockMvc.perform(get("/courses/enroll/report")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
     void should_add_new_course() throws Exception {
         NewCourseRequest newCourseRequest = new NewCourseRequest("java-2", "Java Collections", "Java Collections: Lists, Sets, Maps and more.");
 

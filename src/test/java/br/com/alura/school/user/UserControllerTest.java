@@ -71,6 +71,7 @@ class UserControllerTest {
             "maria, not-an-email",
             "an-username-that-is-really-really-big , maria@email.com"
     })
+
     void should_validate_bad_user_requests(String username, String email) throws Exception {
         NewUserRequest newUser = new NewUserRequest(username, email);
 
@@ -105,4 +106,5 @@ class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
+
 }

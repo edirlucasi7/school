@@ -2,9 +2,6 @@ package br.com.alura.school.course;
 
 import br.com.alura.school.user.User;
 import br.com.alura.school.user.UserRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,8 +37,8 @@ class CourseController {
     }
 
     @GetMapping("/courses/enroll/report")
-    ResponseEntity<Page<EnrolledUsersResponse>> reportByEnroll(@PageableDefault(page = 0, size = 10) Pageable paginacao) {
-        Page<User> users = userRepository.enrollUsersReport(paginacao);
+    ResponseEntity<List<EnrolledUsersResponse>> reportByEnroll() {
+        List<User> users = userRepository.enrollUsersReport();
         if(!users.isEmpty()) {
             return ResponseEntity.ok(EnrolledUsersResponse.convert(users));
         }

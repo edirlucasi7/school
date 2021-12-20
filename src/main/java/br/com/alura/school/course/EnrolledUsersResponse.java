@@ -4,6 +4,9 @@ import br.com.alura.school.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class EnrolledUsersResponse {
 
     @JsonProperty
@@ -17,8 +20,8 @@ public class EnrolledUsersResponse {
         this.amountEnroll = user.getAmountEnroll();
     }
 
-    static Page<br.com.alura.school.course.EnrolledUsersResponse> convert(Page<User> users) {
-        return users.map(br.com.alura.school.course.EnrolledUsersResponse::new);
+    static List<EnrolledUsersResponse> convert(List<User> users) {
+        return users.stream().map(EnrolledUsersResponse::new).collect(Collectors.toList());
     }
 
     String getEmail() {
