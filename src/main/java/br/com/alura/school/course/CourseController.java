@@ -53,10 +53,10 @@ class CourseController {
     }
 
     @PostMapping("/courses/{courseCode}/enroll")
-    ResponseEntity<Void> newEnroll(@PathVariable("courseCode") String courseCode, @RequestBody @Valid NewUserCourseRequest newUserCourseRequest) {
-        User user = userRepository.findByUsername(newUserCourseRequest.getUsername()).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("User with username %s not found", newUserCourseRequest.getUsername())));
+    ResponseEntity<Void> newEnroll(@PathVariable("courseCode") String courseCode, @RequestBody @Valid NewCourseUserRequest newCourseUserRequest) {
+        User user = userRepository.findByUsername(newCourseUserRequest.getUsername()).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("User with username %s not found", newCourseUserRequest.getUsername())));
         Course course = courseRepository.findByCode(courseCode).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("Course with code %s not found", courseCode)));
-        if(!course.hasEqualsUsersInACourse(newUserCourseRequest.getUsername())) {
+        if(!course.hasEqualsUsersInACourse(newCourseUserRequest.getUsername())) {
             course.addUser(new UserCourse(user, course));
             courseRepository.save(course);
             return ResponseEntity.created(null).build();

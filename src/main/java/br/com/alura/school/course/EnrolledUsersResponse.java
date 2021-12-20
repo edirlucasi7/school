@@ -2,7 +2,6 @@ package br.com.alura.school.course;
 
 import br.com.alura.school.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-class NewUserCourseRequest {
+class NewCourseUserRequest {
 
     @Size(max=20)
     @NotBlank

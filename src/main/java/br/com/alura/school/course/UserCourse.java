@@ -44,13 +44,4 @@ class UserCourse {
 
     void setCourse(Course course) { this.course = course; }
 
-    @Override
-    public String toString() {
-        return "UserCourse{" +
-                "id=" + id +
-                ", date=" + date +
-                ", user=" + user +
-                ", course=" + course +
-                '}';
-    }
 }

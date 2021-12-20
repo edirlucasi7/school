@@ -64,11 +64,11 @@ class CourseControllerTest {
     }
 
     @Test
-    void should_retrieve_report_users_and_enroll() throws Exception {
+    void should_retrieve_report_users_and_enrollment() throws Exception {
         userRepository.save(new User("icety", "icety@email.com"));
         courseRepository.save(new Course("spring-1", "Spring Basics", "Spring Core and Spring MVC."));
 
-        NewUserCourseRequest newUserCourseRequest = new NewUserCourseRequest();
+        NewCourseUserRequest newUserCourseRequest = new NewCourseUserRequest();
         newUserCourseRequest.setUsername("icety");
 
         mockMvc.perform(post("/courses/spring-1/enroll")
@@ -106,11 +106,21 @@ class CourseControllerTest {
     }
 
     @Test
+    void should_not_add_new_course() throws Exception {
+        NewCourseRequest newCourseRequest = new NewCourseRequest("", "", "Java Collections: Lists, Sets, Maps and more.");
+
+        mockMvc.perform(post("/courses")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonMapper.writeValueAsString(newCourseRequest)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void should_add_new_user_in_course() throws Exception {
         userRepository.save(new User("icety", "icety@email.com"));
         courseRepository.save(new Course("java-1", "Java OO", "Java and Object Orientation: Encapsulation, Inheritance and Polymorphism."));
 
-        NewUserCourseRequest newUserCourseRequest = new NewUserCourseRequest();
+        NewCourseUserRequest newUserCourseRequest = new NewCourseUserRequest();
         newUserCourseRequest.setUsername("icety");
 
         mockMvc.perform(post("/courses/java-1/enroll")
