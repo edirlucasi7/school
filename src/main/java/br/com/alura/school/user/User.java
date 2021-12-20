@@ -4,9 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import java.util.Objects;
 
@@ -29,20 +27,33 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotNull
+    @Column(name = "amount_enroll")
+    private Integer amountEnroll;
+
     @Deprecated
     protected User() {}
 
     public User(String username, String email) {
         this.username = username;
         this.email = email;
+        this.amountEnroll = 0;
+    }
+
+    public void addEnroll() {
+        this.amountEnroll += 1;
     }
 
     public String getUsername() {
         return username;
     }
 
-    String getEmail() {
+    public String getEmail() {
         return email;
+    }
+
+    public Integer getAmountEnroll() {
+        return amountEnroll;
     }
 
     @Override

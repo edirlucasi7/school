@@ -2,6 +2,9 @@ package br.com.alura.school.course;
 
 import br.com.alura.school.user.User;
 import br.com.alura.school.user.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,7 +22,7 @@ class CourseController {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
 
-    CourseController(CourseRepository courseRepository, UserRepository userRepository) {
+    public CourseController(CourseRepository courseRepository, UserRepository userRepository) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
     }
@@ -34,6 +37,15 @@ class CourseController {
     ResponseEntity<CourseResponse> courseByCode(@PathVariable("code") String code) {
         Course course = courseRepository.findByCode(code).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("Course with code %s not found", code)));
         return ResponseEntity.ok(new CourseResponse(course));
+    }
+
+    @GetMapping("/courses/enroll/report")
+    ResponseEntity<Page<EnrolledUsersResponse>> reportByEnroll(@PageableDefault(page = 0, size = 10) Pageable paginacao) {
+        Page<User> users = userRepository.enrollUsersReport(paginacao);
+        if(!users.isEmpty()) {
+            return ResponseEntity.ok(EnrolledUsersResponse.convert(users));
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/courses")

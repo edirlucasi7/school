@@ -36,6 +36,7 @@ class UserCourse {
         Assert.notNull(user, "The user should not be null!");
         Assert.notNull(course, "The course should not be null!");
         this.user = user;
+        user.addEnroll();
         this.course = course;
     }
 

@@ -38,8 +38,8 @@ class Course {
     protected Course() { }
 
     Course(String code, String name, String description) {
-        Assert.notNull(code,"The code cannot be null!");
-        Assert.notNull(name,"The name cannot be null!");
+        Assert.notNull(code,"The course should not be null!");
+        Assert.notNull(name,"The user should not be null!");
         this.code = code;
         this.name = name;
         this.description = description;
@@ -80,4 +80,5 @@ class Course {
     public int hashCode() {
         return Objects.hash(code);
     }
+
 }
