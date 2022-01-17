@@ -2,6 +2,7 @@ package br.com.alura.school.course;
 
 import br.com.alura.school.user.User;
 import br.com.alura.school.user.UserRepository;
+import br.com.alura.school.user.vo.EnrollUsersReportVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -37,10 +38,10 @@ class CourseController {
     }
 
     @GetMapping("/courses/enroll/report")
-    ResponseEntity<List<EnrolledUsersResponse>> reportByEnroll() {
-        List<User> users = userRepository.enrollUsersReport();
+    ResponseEntity<List<EnrollUsersReportVO>> reportByEnroll() {
+        List<EnrollUsersReportVO> users = userRepository.enrollUsersReport();
         if(!users.isEmpty()) {
-            return ResponseEntity.ok(EnrolledUsersResponse.convert(users));
+            return ResponseEntity.ok(users);
         }
         return ResponseEntity.noContent().build();
     }
@@ -56,7 +57,7 @@ class CourseController {
     ResponseEntity<Void> newEnroll(@PathVariable("courseCode") String courseCode, @RequestBody @Valid NewCourseUserRequest newCourseUserRequest) {
         User user = userRepository.findByUsername(newCourseUserRequest.getUsername()).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("User with username %s not found", newCourseUserRequest.getUsername())));
         Course course = courseRepository.findByCode(courseCode).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, format("Course with code %s not found", courseCode)));
-        if(!course.hasEqualsUsersInACourse(newCourseUserRequest.getUsername())) {
+        if(!courseRepository.hasEqualsUsersInACourse(user.getId(), course.getId())) {
             course.addUser(new UserCourse(user, course));
             courseRepository.save(course);
             return ResponseEntity.created(null).build();

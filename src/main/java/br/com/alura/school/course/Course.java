@@ -51,11 +51,6 @@ class Course {
         this.users.add(user);
     }
 
-    boolean hasEqualsUsersInACourse(String username) {
-        Assert.notNull(username,"The username should not be null!");
-        return users.stream().anyMatch(u -> (u.getUser().getUsername().equals(username)));
-    }
-
     String getCode() {
         return code;
     }
@@ -81,4 +76,7 @@ class Course {
         return Objects.hash(code);
     }
 
+    public Long getId() {
+        return id;
+    }
 }

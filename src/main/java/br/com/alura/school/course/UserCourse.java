@@ -22,11 +22,11 @@ class UserCourse {
     private LocalDate date = LocalDate.now();
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
 
     @Deprecated

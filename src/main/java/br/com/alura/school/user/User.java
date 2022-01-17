@@ -29,7 +29,7 @@ public class User {
 
     @NotNull
     @Column(name = "amount_enroll")
-    private Integer amountEnroll;
+    private Long amountEnroll;
 
     @Deprecated
     protected User() {}
@@ -37,11 +37,11 @@ public class User {
     public User(String username, String email) {
         this.username = username;
         this.email = email;
-        this.amountEnroll = 0;
+        this.amountEnroll = 0l;
     }
 
     public void addEnroll() {
-        this.amountEnroll += 1;
+        this.amountEnroll += 1l;
     }
 
     public String getUsername() {
@@ -52,7 +52,7 @@ public class User {
         return email;
     }
 
-    public Integer getAmountEnroll() {
+    public Long getAmountEnroll() {
         return amountEnroll;
     }
 
@@ -69,4 +69,7 @@ public class User {
         return Objects.hash(username);
     }
 
+    public Long getId() {
+        return id;
+    }
 }
